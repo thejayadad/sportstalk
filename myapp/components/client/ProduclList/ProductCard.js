@@ -1,20 +1,27 @@
 'use client'
-import React, { useState } from 'react';
-import ProductCard from './ProductCard';
-import Modal from '@/components/modals/Modal';
 
+import React from 'react';
+import { motion } from 'framer-motion';
 
-const ProductList = () => {
-
+const ProductCard = ({ product, onClick }) => {
   return (
-    <section className='max-w-screen-xl mx-auto px-4 py-8 cursor-pointer'>
-      <div className='grid grid-cols-2 items-center md:grid-cols-3 gap-4'>
-          <ProductCard  />
-      
-      </div>
-
-   </section>
+    <div>
+      <motion.div whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }} onClick={onClick}>
+        <div className='relative'>
+          <div className='p-4 relative z-10'>
+            <img className="w-full h-80 object-cover mb-4" src={product.img} alt={product.title} />
+            <div className='text-center'>
+              <h2 className="text-lg font-semibold mb-1">{product.title}</h2>
+              <p className="text-gray-500 mb-2">{product.desc}</p>
+              <p className="text-blue-500 font-semibold">
+                <span className='text-pink'>$</span>{product.prices[0]}
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 };
 
-export default ProductList;
+export default ProductCard;

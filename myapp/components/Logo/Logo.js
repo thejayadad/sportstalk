@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 const Logo = ({size}) => {
   return (
-    <Link href={''}>
+    <Link href={'/'}>
       <motion.div
         whileHover={{ scale: 1.3 }}
         transition={{ duration: 0.2 }}
