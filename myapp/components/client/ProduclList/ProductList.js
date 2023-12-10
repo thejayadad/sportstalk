@@ -5,6 +5,7 @@ import ProductCard from './ProductCard';
 import Modal from '@/components/modals/Modal';
 import { fetchProducts } from '@/lib/apiRequest';
 import { motion } from 'framer-motion';
+import ProductText from './ProductText';
 
 
 const ProductList = () => {
@@ -44,6 +45,7 @@ const ProductList = () => {
 
   return (
     <section className='max-w-screen-xl mx-auto px-4 py-8 cursor-pointer'>
+      <ProductText />
       <div className={`grid grid-cols-2 items-center md:grid-cols-3 gap-4 ${selectedProduct ? 'opacity-50 pointer-events-none' : ''}`}>
         {products.map((product) => (
           <ProductCard key={product.id} product={product} onClick={() => handleProductClick(product)} />
