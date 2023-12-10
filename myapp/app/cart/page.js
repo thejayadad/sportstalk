@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '@/lib/CartContext';
 import CartItem from '@/components/client/CartItem/CartItem';
@@ -41,9 +41,9 @@ const Cart = () => {
 
       await stripe.redirectToCheckout({ sessionId: data.id });
       createOrder({
-        customer: 'John Doe',
-        email: '', 
-        address: '123 Main St, Cityville', 
+        customer: customerInfo.customer,
+        email: customerInfo.email, 
+        address: customerInfo.address, 
         total: total,
         status: 0, 
         method: 0, 
@@ -51,6 +51,17 @@ const Cart = () => {
     } catch (error) {
       console.error('Error during checkout:', error);
     }
+  };
+
+  const [customerInfo, setCustomerInfo] = useState({
+    customer: '',
+    email: '',
+    address: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setCustomerInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
   
@@ -65,6 +76,35 @@ const Cart = () => {
     >
       <div className='max-w-screen-xl mx-auto'>
         <h1 className='text-3xl font-semibold mb-4'>Shopping Cart</h1>
+        <form>
+          <label>
+            Customer Name:
+            <input
+              type="text"
+              name="customer"
+              value={customerInfo.customer}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="text"
+              name="email"
+              value={customerInfo.email}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+            Address:
+            <input
+              type="text"
+              name="address"
+              value={customerInfo.address}
+              onChange={handleInputChange}
+            />
+          </label>
+        </form>
         {cart.length > 0 ? (
           <motion.table
             className='w-full border-collapse overflow-hidden'

@@ -14,11 +14,11 @@ const fetchProducts = async () => {
 
 export { fetchProducts };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/';
 
 export const createOrder = async (orderData) => {
   try {
-    const res = await fetch(`${API_URL}/api/order`, {
+    const res = await fetch(`${API_URL}api/order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
