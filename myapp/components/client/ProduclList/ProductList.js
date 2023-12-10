@@ -6,6 +6,8 @@ import Modal from '@/components/modals/Modal';
 import { fetchProducts } from '@/lib/apiRequest';
 import { motion } from 'framer-motion';
 import ProductText from './ProductText';
+import Logo from '@/components/Logo/Logo';
+import { useCart } from '@/lib/CartContext';
 
 
 const ProductList = () => {
@@ -13,15 +15,18 @@ const ProductList = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedSide, setSelectedSide] = useState(null);
 
+  const { addToCart } = useCart();
+
+
   const handleSideSelect = (side) => {
     setSelectedSide(side);
   };
 
   const handleAddToCart = () => {
-    console.log('Product added to cart:', { products, selectedSide });
-    onClose();
+    const productWithQuantity = { ...selectedProduct, quantity: 1, side: selectedSide };
+    addToCart(productWithQuantity);
+    handleCloseModal();
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,7 +59,10 @@ const ProductList = () => {
 
       {selectedProduct && (
         <Modal isOpen={selectedProduct !== null} onClose={handleCloseModal}>
-          <img
+          <div className='text-center mx-auto w-full flex items-center'>
+          <Logo className='text-center' size={'150px'} />
+          </div>
+          <img 
             src={selectedProduct.img}
             alt={selectedProduct.title}
             className='w-full h-64 object-cover mb-4'
@@ -67,19 +75,29 @@ const ProductList = () => {
             
           </p>
 
-          <div className='mt-4'>
-          <p className='text-lg font-semibold mb-2'>Select a Side:</p>
+   <div className='mt-4 flex items-center '>
+          <p className='text-lg font-semibold mr-2'>Select a Side:</p>
           {selectedProduct.sides.map((side) => (
+              <div>
             <motion.div
               key={side.text}
-              className={`p-2 border rounded-lg cursor-pointer ${
-                selectedSide === side.text ? 'bg-blue-500 text-white' : 'hover:bg-gray-200'
-              }`}
-              onClick={() => handleSideSelect(side.text)}
+              className='mr-2'
               whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              {side.text} - ${side.price}
+              <input
+                type='radio'
+                id={side.text}
+                name='side'
+                value={side.text}
+                checked={selectedSide === side.text}
+                onChange={() => handleSideSelect(side.text)}
+              />
+              <label htmlFor={side.text} className='ml-1'>
+                {side.text} - ${side.price}
+              </label>
             </motion.div>
+              </div>
           ))}
         </div>
 

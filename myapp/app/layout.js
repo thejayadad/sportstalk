@@ -4,7 +4,7 @@ import './globals.css'
 import Navbar from '@/components/client/Navbar'
 import Footer from '@/components/client/Footer/Footer'
 import AuthProvider from '@/SessionProvider'
-
+import { CartProvider } from '@/lib/CartContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,12 +22,15 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
+        <CartProvider>
+
         <Navbar />
         <div className='min-h-screen'>
         {children}
 
         </div>
         <Footer />
+        </CartProvider>
         </AuthProvider>
         </body>
     </html>
