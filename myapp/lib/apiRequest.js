@@ -13,3 +13,4 @@ const fetchProducts = async () => {
 };
 
 export { fetchProducts };
+

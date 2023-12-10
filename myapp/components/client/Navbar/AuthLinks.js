@@ -28,7 +28,7 @@ const AuthLinks = () => {
         <Link className="text-secondary" href={"/cart"}>
           <div className='flex relative flex-col'>
           {totalQuantity > 0 && (
-                <span className='ml-4 text-sm absolute bottom-8 text-primary bg-pink p-2 rounded-sm'>
+                <span className='ml-4 text-sm absolute bottom-8 text-primary bg-pink p-2 '>
                   {totalQuantity}
                 </span>           
             )}
