@@ -55,7 +55,7 @@ const Cart = () => {
           >
             <h2 className='text-xl font-semibold mb-2'>Total: ${total.toFixed(2)}</h2>
             <motion.button
-              className='bg-blue-500 text-white py-2 px-4 rounded-md'
+              className='secondary text-secondary bg-transparent border border-pink py-2 px-4 '
               whileHover={{ scale: 1.05 }}
             >
               Checkout

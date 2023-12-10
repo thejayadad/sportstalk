@@ -35,14 +35,14 @@ const CartItem = ({ item }) => {
       <td className='py-2 px-4 border-r'>
         <div className='flex items-center'>
           <button
-            className='text-blue-500 focus:outline-none'
+            className='text-pink focus:outline-none'
             onClick={handleDecreaseQuantity}
           >
             -
           </button>
           <span className='mx-2'>{item.quantity}</span>
           <button
-            className='text-blue-500 focus:outline-none'
+            className='text-secondary focus:outline-none'
             onClick={handleIncreaseQuantity}
           >
             +
