@@ -3,11 +3,57 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '@/lib/CartContext';
 import CartItem from '@/components/client/CartItem/CartItem';
+import { loadStripe } from '@stripe/stripe-js';
+import { createOrder } from '@/lib/apiRequest';
 
 const Cart = () => {
   const { cart } = useCart();
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
   const total = cart.reduce((acc, item) => acc + item.prices[0] * item.quantity, 0);
+
+  const handleCheckout = async () => {
+    const lineItems = cart.map((product) => {
+      return {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: product.title,
+          },
+          unit_amount: product.prices[0] * 100, 
+        },
+        quantity: product.quantity,
+      };
+    });
+
+    try {
+      const res = await fetch('http://localhost:3000/api/checkout', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(lineItems),
+      });
+
+      const data = await res.json();
+
+      const stripe = await stripePromise;
+
+      await stripe.redirectToCheckout({ sessionId: data.id });
+      createOrder({
+        customer: 'John Doe',
+        email: '', 
+        address: '123 Main St, Cityville', 
+        total: total,
+        status: 0, 
+        method: 0, 
+      });
+    } catch (error) {
+      console.error('Error during checkout:', error);
+    }
+  };
+
+  
 
   return (
     <motion.section
@@ -57,6 +103,8 @@ const Cart = () => {
             <motion.button
               className='secondary text-secondary bg-transparent border border-pink py-2 px-4 '
               whileHover={{ scale: 1.05 }}
+              onClick={handleCheckout}
+              disabled={cart.length === 0}
             >
               Checkout
             </motion.button>
